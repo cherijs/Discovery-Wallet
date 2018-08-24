@@ -1,0 +1,11 @@
+{
+  "name": "Discovery-Wallet",
+  "version": "1.0.0",
+  "description": "Non-custodial we wallet indspired in HTLC.ME",
+  "main": "index.js",
+  "author": "DiscoveryBlock",
+  "license": "GNU 3",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
