@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+        rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <link href="/favicon.ico" rel="Shortcut Icon" type="image/x-icon">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Discovery - Lightning Network Custodial Wallet</title>
+</head>
+
+<body>
+    <nav class="bg-white navbar navbar-light navbar-expand-lg sticky-top">
+        <a class="navigate-home navbar-brand text-dark" href="/">
+            <i class="fas fa-user-astronaut mr-2 fa-fw"></i>
+            <span style="letter-spacing: 1px;">Discovery Wallet</span>
+        </a>
+        <button class="navbar-toggler" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto"></ul>
+            <form class="form-inline my-2 my-lg-0 text-white show-on-start" hidden>
+                <button class="btn btn-link sign-out text-dark" data-toggle="dropdown" type="button">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    <span>Sign Out</span>
+                </button>
+            </form>
+        </div>
+    </nav>
+    <div class="container mb-4" style="min-height: 600px; padding-bottom: 100px;">
+        <div class="row mt-5">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 main-column">
+                <div class="card bg-light mb-2 show-on-start text-center wallet-balance" hidden>
+                    <div class="card-body">
+                        <p class="card-text mb-0 text-muted">Current Wallet Balance</p>
+                        <h5 class="card-title mb-0 text-success wallet_balance">... tBTC</h5>
+                    </div>
+                </div>
+                <div class="card mb-4 payment-actions show-on-start" hidden>
+                    <div class="card-header">
+                        <ul class="card-header-tabs nav nav-tabs">
+                            <li class="nav-item prepare-send top-action">
+                                <a class="active nav-link text-primary" href="#">Send</a>
+                            </li>
+                            <li class="nav-item prepare-receive top-action">
+                                <a class="nav-link text-success" href="#">Receive</a>
+                            </li>
+                            <li class="nav-item present-network top-action">
+                                <a class="nav-link text-info" href="#">Network</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="action-details network-info" hidden>
+                            <div class="card-deck">
+                                <div class="bg-secondary card text-white">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a class="show-network text-white" href="#">
+                                                <u>
+                                                    <i class="fas fa-address-book mr-2"></i>
+                                                    <span>Directory</span>
+                                                </u>
+                                            </a>
+                                        </h5>
+                                        <p class="card-text">Registered Lightning nodes</p>
+                                    </div>
+                                </div>
+                                <div class="bg-success card create-store text-white" hidden>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a class="mr-2 create-new-store text-white" href="#" target="_blank">
+                                                <u>
+                                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                                    <span class="store-title">Create Store</span>
+                                                </u>
+                                            </a>
+                                        </h5>
+                                        <p class="card-text">Create your own Shop!</p>
+                                    </div>
+                                </div>
+                                <div class="bg-success card store text-white" hidden>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a class="mr-2 show-store text-white" href="#" target="_blank">
+                                                <u>
+                                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                                    <span class="store-title">Store Title</span>
+                                                </u>
+                                            </a>
+                                            <a class="btn btn-sm btn-dark delete-store float-right">
+                                                <i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </h5>
+                                        <p class="card-text">
+                                            <span class="product-count"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="action-details preparing-receive text-success" hidden>
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    <i class="fab fa-btc mr-2"></i>
+                                    <strong>Amount tBTC:</strong>
+                                </label>
+                                <div class="input-group input-group-lg mb-2 mb-sm-0">
+                                    <input class="form-control request-amount" min="0.00000001" max="0.04194304" placeholder="0.00000000"
+                                        step="0.00000001" type="number">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <small>tBTC</small>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-lg btn-success collapse request-payment">Request Payment</button>
+                            </div>
+                        </form>
+                        <form class="action-details preparing-send text-primary">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-bolt mr-2"></i>
+                                    <strong>Lightning Invoice:</strong>
+                                </label>
+                                <input class="form-control form-control-lg request" autofocus placeholder="">
+                            </div>
+                        </form>
+                        <div class="card bg-light border-primary payment-preview" hidden>
+                            <div class="card-body pb-2">
+                                <h4 class="amount card-title text-primary">0.00000042 tBTC ($0.01 tUSD)</h4>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <span>Lightning Payment </span>
+                                    <span class="recipient">to
+                                        <a class="recipient-link text-muted" target="_blank"></a>
+                                    </span>
+                                </h6>
+                                <p class="card-text">
+                                    <span class="quote">&#8220;</span>
+                                    <span class="description"></span>
+                                    <span class="quote">&#8220;</span>
+                                </p>
+                                <form>
+                                    <div class="form-group">
+                                        <button class="btn btn-lg btn-primary send" type="submit">Send Payment</button>
+                                        <button class="btn btn-lg btn-link text-primary cancel" type="reset">Cancel Payment</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4 show-on-start transactions-break" hidden></div>
+                <div class="boost-in-directory card border-primary mb-4 template">
+                    <div class="card-body pb-0">
+                        <h4 class="card-title">Boost in Directory</h4>
+                        <p class="card-text">
+                            <span>Do you want to boost </span>
+                            <span class="quote">&#8220;</span>
+                            <span class="node-to-boost-name">Articles</span>
+                            <span class="quote">&#8220; </span>
+                            <span>in the Network Directory? This will push it up to the top of the list in the global directory
+                                and everyone will be able to see it more easily.</span>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <button class="boost btn btn-lg btn-primary">Pay 0.01 tBTC to boost</button>
+                        <button class="btn btn-lg btn-link cancel">Cancel</button>
+                    </div>
+                </div>
+                <div class="bg-warning card mb-4 initializing text-center" hidden>
+                    <h4 class="card-header">
+                        <i class="fas fa-bolt mr-2"></i>
+                        <span>Starting Lightning</span>
+                        <i class="fas fa-bolt ml-2"></i>
+                    </h4>
+                    <div class="card-body">
+                        <p class="card-text">Connecting to your HTLC.me wallet...</p>
+                        <p class="card-text">Buckle your seatbelt, get ready to start transacting!</p>
+                    </div>
+                </div>
+                <div class="border-info card mb-4 network-directory template">
+                    <div class="card-header">
+                        <span>Network Directory</span>
+                        <button class="close float-right" aria-label="Close" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Lightning Nodes</h5>
+                        <p class="card-text">Nodes that have self-registered with HTLC.me and used their node key to cryptographically authenticate
+                            their node details.</p>
+                        <form>
+                            <div class="form-group">
+                                <label>HTLC.me Peer Address:</label>
+                                <div class="input-group">
+                                    <input class="custodial-address form-control text-to-copy" readonly type="text">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary copy" type="button">
+                                            <i class="fas fa-copy mr-2"></i>
+                                            <span class="text">Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="directory-list list-group list-group-flush">
+                        <li class="directory-item list-group-item pb-0 pt-3 template">
+                            <button class="boost border-info btn btn-link btn-sm float-right show-on-start text-info" hidden
+                                title="Boost to the top">
+                                <i class="fas fa-fw fa-level-up-alt"></i>
+                            </button>
+                            <button class="border-info btn btn-sm btn-link float-right mr-2 remove show-on-start text-info"
+                                hidden title="Remove">
+                                <i class="fas fa-fw fa-trash"></i>
+                            </button>
+                            <h5>
+                                <a class="name text-info" href="#" target="_blank"></a>
+                                <div class="text-dark">
+                                    <small class="description"></small>
+                                </div>
+                            </h5>
+                            <pre class="public-key text-muted"></pre>
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <a class="card-link text-info update-directory" href="#">Update directory with your node</a>
+                        <a class="card-link text-info view-network-graph" href="#">View network map</a>
+                    </div>
+                </div>
+                <div class="card mb-4 network-graph template">
+                    <div class="card-header">
+                        <i class="fas fa-bolt mr-2"></i>
+                        <span>Network Map</span>
+                        <button class="close float-right" aria-label="Close" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <svg></svg>
+                        <p class="card-text text-info">
+                            <small class="current-channel-count"></small>
+                        </p>
+                    </div>
+                </div>
+                <div class="border-info card mb-4 node-registration template">
+                    <div class="card-header">Node Name Registration</div>
+                    <div class="card-body">
+                        <h3 class="card-title text-info">
+                            <i class="far fa-address-book fa-fw mr-2"></i>
+                            <span>Set Your Node Name</span>
+                        </h3>
+                        <p class="card-text">Do you have your own Lightning Network node?</p>
+                        <p class="card-text">Set a public name on HTLC.me so people can see with whom they are transacting.</p>
+                        <form class="set-node-details">
+                            <div class="form-group">
+                                <label class="form-control-label">Name:</label>
+                                <div class="input-group">
+                                    <input class="edit form-control form-control-lg set-node-name" maxlength="96" placeholder="Acme Coffee Shop">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    <span>URL </span>
+                                    <span class="text-muted">(optional)</span>
+                                    <span>:</span>
+                                </label>
+                                <div class="input-group">
+                                    <input class="edit form-control form-control-lg set-node-url" maxlength="96" placeholder="https://example.com/">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    <span>Description </span>
+                                    <span class="text-muted">(optional)</span>
+                                    <span>:</span>
+                                </label>
+                                <div class="input-group">
+                                    <input class="edit form-control form-control-lg set-node-description" maxlength="96" placeholder="Drink coffee every day. Bitcoin for life!">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">Sign this Message:</label>
+                                <div class="input-group">
+                                    <input class="form-control form-control-lg node-name-message" aria-label="Message to Sign"
+                                        readonly>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-lg btn-secondary copy-message" type="button">
+                                            <i class="fas fa-copy mr-2"></i>
+                                            <span class="text">Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <small class="form-text text-muted">
+                                    <span>In </span>
+                                    <abbr class="initialism" title="Lightning Network Daemon">LND</abbr>
+                                    <span>, use $ lncli signmessage </span>
+                                    <span class="node-name-message">message</span>
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">Enter the Message Signature:</label>
+                                <div class="input-group">
+                                    <input class="form-control form-control-lg node-details-signature" placeholder="example: rn7s8uk9beycywpq4rdpxjwh4nnxzzwpfuheb9uwoa9twu93ncdi1i6nm9asggioiasm4i7nzp579c64s6uyamz1acyobjmrj4r4zc3g">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-info btn-lg set-node-name-btn">Set My Node Name</button>
+                                <button class="btn btn-lg btn-link cancel text-info">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="bg-success card mb-4 received-payment template text-white">
+                    <div class="card-body">
+                        <h4 class="card-title">Received Payment</h4>
+                        <h6 class="card-subtitle mb-2 short-description"></h6>
+                        <p class="amount card-text">0.00000042 tBTC ($0.01 tUSD)</p>
+                    </div>
+                </div>
+                <div class="border-primary card mb-4 remove-from-directory template">
+                    <div class="card-body pb-0">
+                        <h4 class="card-title">Remove From Directory</h4>
+                        <p class="card-text">
+                            <span>Do you want to remove </span>
+                            <span class="quote">&#8220;</span>
+                            <span class="node-to-remove-name">Articles</span>
+                            <span class="quote">&#8220; </span>
+                            <span>from the Network Directory? This will remove it from the global directory and require the node
+                                operator to re-register their details if they want to be listed.</span>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-lg btn-primary remove">Pay 0.01 tBTC to remove</button>
+                        <button class="btn btn-lg btn-link cancel">Cancel</button>
+                    </div>
+                </div>
+                <div class="bg-light border-success card mb-4 requested-payment template">
+                    <div class="card-body mt-1">
+                        <button class="btn btn-success float-right refresh-invoice" title="Check invoice">
+                            <i class="fa-sync-alt fas"></i>
+                        </button>
+                        <button class="btn btn-success mr-2 float-right reveal-qr" title="Show QR Code">
+                            <i class="fa-qrcode fas"></i>
+                        </button>
+                        <button class="btn btn-success mr-2 float-right enable-notifications" title="Enable notifications">
+                            <i class="fa-bell far"></i>
+                        </button>
+                        <a class="btn btn-success float-right mr-2 on-chain" href="#" target="_blank" title="On-chain deposit">
+                            <i class="fa-btc fab"></i>
+                        </a>
+                        <h4 class="card-title text-success">Requested Payment</h4>
+                        <p class="amount card-text">
+                            <u>
+                                <a class="payment-amount text-dark"></a>
+                            </u>
+                        </p>
+                        <form>
+                            <div class="form-group">
+                                <label class="form-control-label">Lightning Invoice:</label>
+                                <div class="input-group input-group-lg">
+                                    <input class="form-control payment-request text-to-copy" readonly>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary copy" type="button">
+                                            <i class="fas fa-copy mr-2"></i>
+                                            <span class="text">Copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="qr-code" hidden></div>
+                    </div>
+                </div>
+                <div class="card mb-4 request-peer-addition template">
+                    <div class="card-header">Request Peer Addition</div>
+                    <div class="card-body">
+                        <h4>Connect to Peer</h4>
+                        <p class="card-text">Having issues sending to a destination? Peer connectivity happens automatically, but a destination
+                            peer may be unknown or only weakly connected.</p>
+                        <p>You can request connectivity to a specific network peer using their peer address.</p>
+                        <form>
+                            <div class="form-group">
+                                <label class="form-control-label">Lightning Network Address:</label>
+                                <input class="form-control form-control-lg" placeholder="publicKey@ipAddress"
+                                    type="text">
+                                <small class="form-text text-muted">Establishing or improving peer connectivity may take some time.
+                                </small>
+                            </div>
+                            <button class="btn btn-lg btn-primary request" type="submit">Request Peer Addition</button>
+                            <button class="btn btn-lg btn-link cancel" type="reset">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="bg-info card mb-4 requested-peer-addition template text-white">
+                    <div class="card-body">
+                        <h4 class="card-title">Peer Connection Requested</h4>
+                        <p class="card-text">
+                            <span>Requested improved connectivity to </span>
+                            <strong class="peer">
+                                <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="80f0f5e2cbe5f9c0e8eff3f4">[email&#160;protected]</a>
+                            </strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="card bg-primary mb-4 sent-payment template text-white">
+                    <div class="card-body">
+                        <button class="btn btn-dark btn-sm float-right reveal-payment-proof" hidden>
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <h4 class="card-title">Sent Payment
+                            <span class="recipient">
+                                <span> </span>
+                                <span>to</span>
+                                <span> </span>
+                                <a class="recipient-link text-white" target="_blank">John's Socks Emporium</a>
+                            </span>
+                        </h4>
+                        <p class="card-text payment-proof" hidden>
+                            <span>Payment Proof:</span>
+                            <span> </span>
+                            <span class="payment-secret"></span>
+                        </p>
+                        <p class="amount card-text">0.00000042 tBTC ($0.01 tUSD)</p>
+                        <blockquote class="description mb-0">
+                            <i class="fas fa-quote-left mr-2"></i>
+                            <span class="description-text mr-2">Alpaca Socks</span>
+                            <i class="fas fa-quote-right"></i>
+                        </blockquote>
+                        <p class="fee-amount card-text mb-1 mt-3"></p>
+                    </div>
+                    <div class="card-footer">
+                        <strong class="total-amount card-text"></strong>
+                    </div>
+                </div>
+                <div class="border-success card mb-4 store-creator template">
+                    <div class="card-header">Store Creator</div>
+                    <div class="card-body">
+                        <h4 class="card-title text-success">Make Your Own Shop</h4>
+                        <p class="card-text">Build a Lightning-powered shop to call your own. Add goods, prices and start generating tBTC for
+                            your amazing products.</p>
+                        <div class="title-entry">
+                            <div class="form-group">
+                                <label>Store Title:</label>
+                                <input class="form-control store-title" placeholder="Enter Title" type="text">
+                            </div>
+                        </div>
+                        <form class="add-product" hidden>
+                            <label>Add Product:</label>
+                            <div class="align-items-center form-row mb-4">
+                                <div class="col-auto">
+                                    <input class="form-control mb-2 product-title" type="text" placeholder="Enter Product Name">
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">$</div>
+                                        </div>
+                                        <input class="form-control product-price" max="100" min="0.01" placeholder="0.00"
+                                            step="0.01" type="number">
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-success mb-2" type="submit">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                        <table class="store-listing table table-striped" hidden>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="products">
+                                <tr class="product template">
+                                    <td class="title">Cold Brew Coffee</td>
+                                    <td class="price">$5.00</td>
+                                    <td class="text-right">
+                                        <a class="text-dark remove" href="#">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-lg btn-success create-store disabled" disabled>Create Store</button>
+                        <button class="btn btn-lg btn-link cancel text-success">Cancel</button>
+                    </div>
+                </div>
+                <div class="bg-info card mb-4 updated-directory template text-white">
+                    <div class="card-body">
+                        <h4 class="card-title">Updated Directory</h4>
+                        <p class="card-text">
+                            <span>Successfully updated the network directory with your peer!</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="card mb-4 wallet-creation" hidden>
+                    <div class="card-body mt-1">
+                        <h3 class="card-title">Welcome to your Discovery Wallet!</h3>
+                        <p>Welcome to your very own instant wallet! You are almost ready to send and receive testnet BTC on the Lightning
+                            Network.</p>
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        <strong>Write down your recovery secret to come back to this wallet.</strong>
+                        <i class="fas fa-exclamation-triangle ml-1"></i>
+                        <p class="mt-2 text-muted">Do not lose or share this recovery secret. Without it, your wallet will be lost.</p>
+                        <form class="mt-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Recovery Secret:</label>
+                                <input class="form-control form-control-lg wallet-id" readonly type="text"
+                                    value="">
+                            </div>
+                        </form>
+                        <button class="btn btn-lg btn-primary ack-welcome" href="#">Got it, I wrote it down!</button>
+                        <button class="btn btn-lg btn-link" data-target=".recover-wallet"
+                            data-toggle="modal" href="#">Recover existing wallet...</button>
+                    </div>
+                </div>
+                <div class="card bg-danger mb-4 wallet-error template text-white">
+                    <div class="card-body">
+                        <h4 class="card-title mt-2 title">Error</h4>
+                        <p class="amount card-text text">Error Text</p>
+                        <button class="btn btn-light mr-2 retry-send-payment" hidden>Try again?</button>
+                        <button class="add-peer btn btn-light mr-2" hidden>Know the peer address you are sending to?</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="fade modal recover-wallet" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Wallet Recovery</h5>
+                            <button class="close" aria-label="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Already have an existing wallet? Awesome! You can restore your wallet with your recovery secret
+                                that you wrote down when you started up your wallet last time.</p>
+                            <form class="recovery">
+                                <div class="form-group">
+                                    <label class="form-control-label">Recovery Secret:</label>
+                                    <input class="form-control form-control-lg recover-wallet-id"
+                                        placeholder="Enter your recovery secret..." type="text">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-lg btn-primary start-recovery" type="button">
+                                <span>Recover Wallet</span>
+                                <i class="fas fa-arrow-circle-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-mUQiP08HXwFvLfVYSCnAlrK2VA/CnwrlfmICVHh8ddo=" src="https://cdnjs.cloudflare.com/ajax/libs/async/2.5.0/async.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-9AVANlaB1o0L8ii1b78GD1K0oyjJofOaAk17Chn2qS4=" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.2/d3.min.js"></script>
+    <script async="true" src="/js/kjua.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
