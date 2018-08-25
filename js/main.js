@@ -21,7 +21,7 @@ const App = {
 */
 App.addPeer = (args, cbk) => {
   if (!args.address) {
-    return cbk([0, 'Expected adddress']);
+    return cbk([0, 'Expected address']);
   }
 
   const [publicKey, host] = args.address.split('@');
@@ -203,7 +203,7 @@ App.clickedAckWelcome = () => {
     if (!!res.tokens) {
       App.presentReceivedPayment({
         fiat_value: res.fiat_value,
-        short_description: 'A welcome gift! Thanks for trying HTLC.me!',
+        short_description: 'A welcome gift! Thanks for using Discovery Wallet',
         tokens: res.tokens,
       });
     }
@@ -442,10 +442,10 @@ App.clickedShowNetworkGraph = (e) => {
     const s = graph.own_node.channel_count === 1 ? '' : 's';
 
     $('.current-channel-count')
-    .text(`HTLC.me is currently connected to the Lightning Network with ${graph.own_node.channel_count} active channel${s}.`);
+    .text(`Discovery Wallet is currently connected to the Lightning Network with ${graph.own_node.channel_count} active channel${s}.`);
 
     if (!graph.own_node.channel_count) {
-      return $('.current-channel-count').text('HTLC.me is currently reconnecting to the Lightning Network.')
+      return $('.current-channel-count').text('Discovery Wallet is currently reconnecting to the Lightning Network.')
     }
 
     App.drawNetworkGraph({graph});
@@ -2273,7 +2273,7 @@ App.submitSendPayment = (e) => {
         return App.presentError({
           err: err,
           title: 'Connection Error',
-          text: 'HTLC.me is currently establishing network connectivity. ' +
+          text: 'Discovery Wallet is currently establishing network connectivity. ' +
             'Please try your send again later.',
         });
       }
