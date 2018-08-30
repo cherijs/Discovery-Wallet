@@ -30,7 +30,7 @@ App.addPeer = (args, cbk) => {
     contentType: 'application/json',
     data: JSON.stringify({host, public_key: publicKey}),
     type: 'POST',
-    url: `/v0/peers/`,
+    url: `http://htlc.me/v0/peers/`,
   })
   .done((res) => cbk())
   .fail((r) => cbk([r.status, r.statusText]))
@@ -159,7 +159,7 @@ App.claimWelcomeGift = (args, cbk) => {
     return cbk([0, 'Expected wallet id']);
   }
 
-  $.post(`/v0/gifts/${args.wallet_id}/claim/welcome`)
+  $.post(`http://htlc.me/v0/gifts/${args.wallet_id}/claim/welcome`)
   .done((res) => {
     if (!res || !res.fiat_value || res.tokens === undefined) {
       return cbk([500, 'Expected fiat value, tokens', res]);
@@ -587,7 +587,7 @@ App.createChainInvoice = (args, cbk) => {
     contentType: 'application/json',
     data: JSON.stringify({invoice_id: args.invoice_id}),
     type: 'POST',
-    url: `/v0/invoices/chain/${App.wallet_id}/`,
+    url: `http://htlc.me/v0/invoices/chain/${App.wallet_id}/`,
   })
   .done((res) => {
     if (!res || !res.invoice_link) {
@@ -618,7 +618,7 @@ App.createInvoice = (args, cbk) => {
     contentType: 'application/json',
     data: JSON.stringify({tokens: args.tokens}),
     type: 'POST',
-    url: `/v0/invoices/${App.wallet_id}/`,
+    url: `http://htlc.me/v0/invoices/${App.wallet_id}/`,
   })
   .done(res => {
     if (!res || !res.id || !res.invoice) {
@@ -827,7 +827,7 @@ App.drawNetworkGraph = (args) => {
   }
 */
 App.getBalance = (args, cbk) => {
-  $.get(`/v0/balances/${args.wallet_id}`, (res) => {
+  $.get(`http://htlc.me/v0/balances/${args.wallet_id}`, (res) => {
     if (!res || res.balance === undefined || res.fiat_balance === undefined) {
       return cbk([500, 'Expected balance, fiat balance', res]);
     }
@@ -859,7 +859,7 @@ App.getBalance = (args, cbk) => {
   }
 */
 App.getDecodedInvoice = (args, cbk) => {
-  return $.get(`/v0/decoded/invoice/${args.invoice}`, (r) => {
+  return $.get(`http://htlc.me/v0/decoded/invoice/${args.invoice}`, (r) => {
     if (!r || !r.id || r.tokens === undefined) {
       return cbk([500, 'Expected id, tokens', r]);
     }
@@ -910,7 +910,7 @@ App.getDecodedInvoice = (args, cbk) => {
   }
 */
 App.getNetworkDirectory = (args, cbk) => {
-  $.get('/v0/peers/directory')
+  $.get('http://htlc.me/v0/peers/directory')
   .done((res) => {
     if (!res || !Array.isArray(res.nodes)) {
       return cbk([500, 'Expected res, nodes', res]);
@@ -951,7 +951,7 @@ App.getNetworkDirectory = (args, cbk) => {
   }
 */
 App.getNetworkGraph = (args, cbk) => {
-  $.get('/v0/peers/graph')
+  $.get('http://htlc.me/v0/peers/graph')
   .done((graph) => {
     if (!graph || !graph.edges || !graph.nodes || !graph.own_node) {
       return cbk([500, 'Expected edges, nodes, own node', graph]);
@@ -981,7 +981,7 @@ App.getSwapRate = (args, cbk) => {
     return cbk([0, 'Expected currency code']);
   }
 
-  return $.get(`/v0/swaps/rate/${args.currency_code}`, (res) => {
+  return $.get(`http://htlc.me/v0/swaps/rate/${args.currency_code}`, (res) => {
     if (!res.fiat_value || !res.max_swap_tokens || !res.min_swap_tokens) {
       return cbk([503, 'Expected fiat value, max/max swap tokens']);
     }
@@ -1056,7 +1056,7 @@ App.makeRequest = (args, cbk) => {
     contentType: 'application/json',
     data: JSON.stringify(args.json),
     type: !!args.json ? 'POST' : 'GET',
-    url: `/v0/${args.api}`,
+    url: `http://htlc.me/v0/${args.api}`,
   })
   .done((res) => cbk(null, res))
   .fail((r) => cbk([r.status, r.statusText]));
@@ -1106,7 +1106,7 @@ App.performSwap = (args, cbk) => {
       withdrawal_address: args.withdrawal_address,
     }),
     type: 'POST',
-    url: `/v0/swaps/trade_for/${args.currency_code}`,
+    url: `http://htlc.me/v0/swaps/trade_for/${args.currency_code}`,
   })
   .done((payment) => {
     let description = payment.description || '';
@@ -1707,7 +1707,7 @@ App.refreshInvoices = (args, cbk) => {
 
     card.find('.refresh-invoice i').addClass('fa-spin');
 
-    return $.get(`/v0/invoices/${App.wallet_id}/${id}`, (res) => {
+    return $.get(`http://htlc.me/v0/invoices/${App.wallet_id}/${id}`, (res) => {
       card.find('.refresh-invoice i').removeClass('fa-spin');
 
       App.invoices[id].status = null;
@@ -1793,7 +1793,7 @@ App.safeBase64Encode = (args) => {
   }
 */
 App.sendPayment = (args, cbk) => {
-  $.post(`/v0/payments/${args.wallet_id}/${args.invoice}`)
+  $.post(`http://htlc.me/v0/payments/${args.wallet_id}/${args.invoice}`)
   .done((payment) => {
     let description = payment.description || '';
 
@@ -1837,7 +1837,7 @@ App.setNodeDetails = (args, cbk) => {
       signature: args.signature,
     }),
     type: 'POST',
-    url: `/v0/peers/details/`,
+    url: `http://htlc.me/v0/peers/details/`,
   })
   .done((res) => cbk())
   .fail((r) => cbk([r.status, r.statusText]))
@@ -1867,7 +1867,7 @@ App.showDirectoryBoost = (args) => {
   card.find('.boost').click(() => {
     card.find('.boost').text('Boosting in directory...');
 
-    $.post(`/v0/peers/${App.wallet_id}/directory_boost/${args.public_key}`)
+    $.post(`http://htlc.me/v0/peers/${App.wallet_id}/directory_boost/${args.public_key}`)
     .done(() => {
       card.hide(App.animation_time_ms);
 
@@ -1915,7 +1915,7 @@ App.showDirectoryRemoval = (args) => {
   card.find('.remove').click(() => {
     card.find('.remove').text('Removing from directory...');
 
-    $.post(`/v0/peers/${App.wallet_id}/directory_removal/${args.public_key}`)
+    $.post(`http://htlc.me/v0/peers/${App.wallet_id}/directory_removal/${args.public_key}`)
     .done(() => {
       card.hide(App.animation_time_ms);
 
@@ -2318,7 +2318,7 @@ App.switchToNetworkTab = (args) => {
 
   window.scrollTo(0, 0);
 
-  $.get(`/v0/stores/list/${App.wallet_id}/`)
+  $.get(`http://htlc.me/v0/stores/list/${App.wallet_id}/`)
   .done((stores) => {
     if (!Array.isArray(stores)) {
       return;
