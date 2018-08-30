@@ -1,8 +1,6 @@
 # Discovery Wallet
-###### Based on [htlc.me](https://htlc.me/) by [Alex Bosworth](https://github.com/alexbosworth)
+###### Forked with :heart: from [htlc.me](https://htlc.me/) by [Alex Bosworth](https://github.com/alexbosworth)
 
-## :warning: ATTENTION :warning:	
-Discovery Wallet needs an API to connect AJAX calls from the fron to [LN-SERVICE](https://github.com/alexbosworth/ln-service). Please, submit a PR as soon as possible
 ## Set up
 1. Download & Install [Yarn](https://yarnpkg.com/lang/en/)
 2. Clone the repository
@@ -18,3 +16,5 @@ Discovery Wallet needs an API to connect AJAX calls from the fron to [LN-SERVICE
 - [ ] Pay per click procedure
 
 - [ ] P2mP transactions
+
+- [ ] Implement [PrivacyPass protocol](https://privacypass.github.io/)
