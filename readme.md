@@ -1,5 +1,5 @@
 # Discovery Wallet
-###### Based on [htlc.me](https://htlc.me/) by [Alex Bosworth](https://github.com/alexbosworth)
+###### Forked with :heart: from [htlc.me](https://htlc.me/) by [Alex Bosworth](https://github.com/alexbosworth)
 
 ## Set up
 1. Download & Install [Yarn](https://yarnpkg.com/lang/en/)
