@@ -16,3 +16,5 @@
 - [ ] Pay per click procedure
 
 - [ ] P2mP transactions
+
+- [ ] Implement [PrivacyPass protocol](https://privacypass.github.io/)
