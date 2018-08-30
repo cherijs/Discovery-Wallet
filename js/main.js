@@ -462,6 +462,14 @@ App.clickedSignOutButton = (e) => {
   return;
 };
 
+/** Clicked the sign out button
+*/
+App.clickedLightningFamilyButton = (e) => {
+  window.location.assign("https://lightning.family/");
+
+  return;
+};
+
 /** Clicked the start recovery button
 */
 App.clickedStartRecovery = (e) => {
@@ -1030,6 +1038,7 @@ App.init = (args) => {
   $('.recovery').on('submit', App.submitRecoveryForm);
   $('.show-network').click(App.clickedShowNetworkDirectory);
   $('.sign-out').click(App.clickedSignOutButton);
+  $('.lightning-family').click(App.clickedLightningFamilyButton);
   $('.start-recovery').click(App.clickedStartRecovery);
   $('.view-network-graph').click(App.clickedShowNetworkGraph);
   $('.wallet-creation .wallet-id').val(App.wallet_id);
