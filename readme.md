@@ -1,4 +1,6 @@
+
 # Discovery Wallet
+##### Live at [wallet.lightning.family](https://wallet.lightning.family/)
 ###### Forked with :heart: from [htlc.me](https://htlc.me/) by [Alex Bosworth](https://github.com/alexbosworth)
 
 ## Set up
