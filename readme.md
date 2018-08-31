@@ -8,6 +8,9 @@
 4. Execute ```yarn http-server``` in your terminal
 5. In your web browser go to [localhost:8080](http://localhost:8080)
 
+## Backend 
+[https://www.npmjs.com/package/ln-service](https://www.npmjs.com/package/ln-service)
+
 ## Roadmap
 - [x] Custodial Wallet
 
