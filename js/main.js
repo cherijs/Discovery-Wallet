@@ -465,7 +465,7 @@ App.clickedSignOutButton = (e) => {
 /** Clicked the sign out button
 */
 App.clickedLightningFamilyButton = (e) => {
-  window.location.assign("httpss://lightning.family/");
+  window.location.assign("https://lightning.family/");
 
   return;
 };
