@@ -23,3 +23,6 @@
 - [ ] P2mP transactions
 
 - [ ] Implement [PrivacyPass protocol](https://privacypass.github.io/)
+
+## :wave: [Hey! We have a set of challenges with bounties](https://github.com/Lightning-Family/Lightning-Network-Challenges-Bounties)
+###### How good are you at coding?
